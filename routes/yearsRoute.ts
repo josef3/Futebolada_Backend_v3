@@ -8,6 +8,7 @@ import {
 	getYearById,
 	updateYear,
 } from '../controllers/yearsController';
+import { getYearPollByYearId } from '../controllers/yearPollsController';
 //---------------------------------------------------------
 
 const router = express.Router();
@@ -19,5 +20,7 @@ router.get('/:id', getYearById);
 router.post('/', createYear);
 router.patch('/:id', updateYear);
 router.delete('/:id', deleteYear);
+
+router.get('/:id/year-poll', getYearPollByYearId);
 
 export default router;

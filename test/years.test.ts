@@ -138,6 +138,30 @@ describe('PATCH /years', () => {
 	});
 });
 
+describe('GET /years/:id/year-poll', () => {
+	test(`It should return 200 & years's poll info`, async () => {
+		const res = await request(app).get(`${API_URL}/1/year-poll`);
+
+		expect(res.status).toBe(200);
+
+		expect(Object.keys(res.body).length).toBe(5);
+		expect(res.body).toHaveProperty('id_year_poll');
+		expect(res.body).toHaveProperty('id_year');
+		expect(res.body.id_year).toBe(1);
+		expect(res.body).toHaveProperty('start_date');
+		expect(res.body).toHaveProperty('end_date');
+		expect(res.body).toHaveProperty('finished');
+	});
+
+	test(`It should return 200 & empty object if year exists but doesn't have a poll yet`, async () => {
+		const res = await request(app).get(`${API_URL}/2/year-poll`);
+
+		expect(res.status).toBe(200);
+
+		expect(Object.keys(res.body).length).toBe(0);
+	});
+});
+
 //----------------------------------------------------------
 afterAll(async () => {
 	await pool.end();
