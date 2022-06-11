@@ -4,6 +4,7 @@ import cors from 'cors';
 import errorMiddleware from './middleware/error.middleware';
 //-------------------- Routes --------------------------
 import yearsRoute from './routes/yearsRoute';
+import yearPollsRoute from './routes/yearPollsRoute';
 //----------------------------------------------------------
 
 const app = express();
@@ -15,6 +16,7 @@ app.disable('x-powered-by');
 app.get('/', (req, res) => res.json('Welcome to Futebolada Backend!'));
 
 app.use('/api/v3/years', yearsRoute);
+app.use('/api/v3/year-polls', yearPollsRoute);
 
 app.use(errorMiddleware);
 
