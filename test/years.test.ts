@@ -97,6 +97,36 @@ describe('POST /years', () => {
 	});
 });
 
+describe('DELETE /years/:id', () => {
+	test(`It should return 200 on delete with success`, async () => {
+		//create an year
+		const newYear = await request(app)
+			.post(`${API_URL}`)
+			.send({ year: '2026' });
+
+		const res = await request(app).delete(`${API_URL}/${newYear.body.idYear}`);
+
+		expect(res.status).toBe(200);
+		expect(Object.keys(res.body).length).toBe(0);
+
+		const resAfterDelete = await request(app).get(
+			`${API_URL}/${newYear.body.idYear}`
+		);
+
+		expect(resAfterDelete.status).toBe(404);
+		expect(resAfterDelete.body.message).toBe(
+			new IdNotFoundException(newYear.body.idYear, 'ano').message
+		);
+	});
+
+	test(`It should return 404 if doesn't exist a year with the given id`, async () => {
+		const res = await request(app).delete(`${API_URL}/0`);
+
+		expect(res.status).toBe(404);
+		expect(res.body.message).toBe(new IdNotFoundException('0', 'ano').message);
+	});
+});
+
 describe('PATCH /years', () => {
 	test(`It should return 200 & year id on success`, async () => {
 		const res = await request(app).patch(`${API_URL}/1`).send({ year: '2029' });

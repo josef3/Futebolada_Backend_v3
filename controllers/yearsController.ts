@@ -108,7 +108,14 @@ export async function deleteYear(req: IRequest, res: IResponse, next: INext) {
 	const { id } = req.params;
 
 	try {
-		await pool.query(`DELETE FROM year WHERE id_year = $1`, [id]);
+		const { rowCount } = await pool.query(
+			`DELETE FROM year WHERE id_year = $1`,
+			[id]
+		);
+
+		if (!rowCount) {
+			throw new IdNotFoundException(id, 'ano');
+		}
 
 		res.sendStatus(200);
 	} catch (error) {

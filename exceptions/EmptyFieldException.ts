@@ -3,7 +3,7 @@ import HttpException from './HttpException';
 
 class EmptyFieldException extends HttpException {
 	constructor(fieldName: string) {
-		super(400, `O campo ${fieldName} não pode estar vazio`);
+		super(400, `O(s) campo(s) ${fieldName} não pode(m) estar vazio(s)`);
 	}
 }
 
