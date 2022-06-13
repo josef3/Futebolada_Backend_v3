@@ -2,7 +2,7 @@ import request from 'supertest';
 import app from '../app';
 import { pool } from '../dbConnection';
 //-------------------- Exceptions --------------------------
-import DuplicatedValueException from '../exceptions/DuplicatedValueException';
+import UniqueViolation from '../exceptions/UniqueViolation';
 import EmptyFieldException from '../exceptions/EmptyFieldException';
 import IdNotFoundException from '../exceptions/IdNotFoundException';
 //----------------------------------------------------------
@@ -93,7 +93,7 @@ describe('POST /years', () => {
 		const res = await request(app).post(`${API_URL}`).send({ year: '2021' });
 
 		expect(res.status).toBe(400);
-		expect(res.body.message).toBe(new DuplicatedValueException().message);
+		expect(res.body.message).toBe(new UniqueViolation().message);
 	});
 });
 
@@ -164,7 +164,7 @@ describe('PATCH /years', () => {
 		const res = await request(app).patch(`${API_URL}/1`).send({ year: '2022' });
 
 		expect(res.status).toBe(400);
-		expect(res.body.message).toBe(new DuplicatedValueException().message);
+		expect(res.body.message).toBe(new UniqueViolation().message);
 	});
 });
 

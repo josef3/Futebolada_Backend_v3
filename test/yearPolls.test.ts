@@ -6,7 +6,7 @@ import IdNotFoundException from '../exceptions/IdNotFoundException';
 import EmptyFieldException from '../exceptions/EmptyFieldException';
 import InvalidValueException from '../exceptions/InvalidValueException';
 import HttpException from '../exceptions/HttpException';
-import DuplicatedValueException from '../exceptions/DuplicatedValueException';
+import UniqueViolation from '../exceptions/UniqueViolation';
 //----------------------------------------------------------
 
 const API_URL = '/api/v3/year-polls';
@@ -214,7 +214,7 @@ describe('POST /year-polls', () => {
 		);
 	});
 
-	test(`It should return 400 if year already exists`, async () => {
+	test(`It should return 400 if end Date is previous to the start date`, async () => {
 		const res = await request(app)
 			.post(`${API_URL}`)
 			.send({ idYear: 2, startDate: '2022/05/05', endDate: '2022/01/01' });
@@ -228,13 +228,13 @@ describe('POST /year-polls', () => {
 		);
 	});
 
-	test(`It should return 400 if year already exists`, async () => {
+	test(`It should return 400 if an year poll already exists for that year`, async () => {
 		const res = await request(app)
 			.post(`${API_URL}`)
 			.send({ idYear: 1, startDate: '2022/06/12' });
 
 		expect(res.status).toBe(400);
-		expect(res.body.message).toBe(new DuplicatedValueException().message);
+		expect(res.body.message).toBe(new UniqueViolation().message);
 	});
 });
 

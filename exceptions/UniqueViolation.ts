@@ -1,10 +1,10 @@
 import HttpException from './HttpException';
 //----------------------------------------------------------
 
-class DuplicatedValueException extends HttpException {
+class UniqueViolation extends HttpException {
 	constructor() {
 		super(400, `O valor já existe no sistema`);
 	}
 }
 
-export default DuplicatedValueException;
+export default UniqueViolation;
