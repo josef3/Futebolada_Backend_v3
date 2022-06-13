@@ -98,7 +98,7 @@ export async function createYearPoll(
 			if (!isDateValid(endDate)) {
 				return next(new InvalidValueException('data fim'));
 			}
-			if (!(endDate > startDate)) {
+			if (!(new Date(endDate) > new Date(startDate))) {
 				return next(
 					new HttpException(
 						400,
