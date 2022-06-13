@@ -7,6 +7,7 @@ import EmptyFieldException from '../exceptions/EmptyFieldException';
 import InvalidValueException from '../exceptions/InvalidValueException';
 import HttpException from '../exceptions/HttpException';
 import UniqueViolation from '../exceptions/UniqueViolation';
+import ForeignKeyViolation from '../exceptions/ForeignKeyViolation';
 //----------------------------------------------------------
 
 const API_URL = '/api/v3/year-polls';
@@ -235,6 +236,15 @@ describe('POST /year-polls', () => {
 
 		expect(res.status).toBe(400);
 		expect(res.body.message).toBe(new UniqueViolation().message);
+	});
+
+	test(`It should return 400 if the id of the year doesn't exist`, async () => {
+		const res = await request(app)
+			.post(`${API_URL}`)
+			.send({ idYear: 1000000, startDate: '2022/06/12' });
+
+		expect(res.status).toBe(400);
+		expect(res.body.message).toBe(new ForeignKeyViolation().message);
 	});
 });
 
