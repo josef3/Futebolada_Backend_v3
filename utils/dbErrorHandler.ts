@@ -1,6 +1,7 @@
 import { DatabaseError } from 'pg';
 //-------------------- Exceptions --------------------------
-import DuplicatedValueException from '../exceptions/DuplicatedValueException';
+import ForeignKeyViolation from '../exceptions/ForeignKeyViolation';
+import UniqueViolation from '../exceptions/UniqueViolation';
 //----------------------------------------------------------
 
 type Errors = {
@@ -11,9 +12,15 @@ type Errors = {
 };
 
 const errors: Errors = {
+	//foreign_key_violation
+	'23503': {
+		statusCode: new ForeignKeyViolation().statusCode,
+		message: new ForeignKeyViolation().message,
+	},
+	//unique_violation
 	'23505': {
-		statusCode: new DuplicatedValueException().statusCode,
-		message: new DuplicatedValueException().message,
+		statusCode: new UniqueViolation().statusCode,
+		message: new UniqueViolation().message,
 	},
 };
 
