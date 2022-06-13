@@ -52,7 +52,7 @@ describe('GET /year-polls/:id', () => {
 	});
 });
 
-describe('DELETE /years/:id', () => {
+describe('DELETE /year-polls/:id', () => {
 	test(`It should return 200 on delete with success`, async () => {
 		//create an yearPoll
 		const newYearPoll = await request(app).post(`${API_URL}`).send({
