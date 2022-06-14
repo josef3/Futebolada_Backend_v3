@@ -192,6 +192,26 @@ describe('GET /years/:id/year-poll', () => {
 	});
 });
 
+describe('GET /years/:id/weeks', () => {
+	test(`It should return 200 & weeks info`, async () => {
+		const res = await request(app).get(`${API_URL}/1/weeks`);
+
+		expect(res.status).toBe(200);
+
+		expect(Object.keys(res.body[0]).length).toBe(6);
+		expect(res.body[0]).toHaveProperty('id_week');
+		expect(res.body[0]).toHaveProperty('date');
+		expect(res.body[0]).toHaveProperty('poll_start_date');
+		expect(res.body[0]).toHaveProperty('poll_end_date');
+		expect(res.body[0]).toHaveProperty('poll_finished');
+		expect(res.body[0]).toHaveProperty('id_year');
+		expect(res.body[0].id_year).toBe(1);
+
+		//check if its ordered by date desscending
+		expect(`${res.body[0].date}` > `${res.body[1].date}`).toBeTruthy();
+	});
+});
+
 //----------------------------------------------------------
 afterAll(async () => {
 	await pool.end();
